@@ -456,16 +456,14 @@ function App() {
                       className={`usuario ${activo ? "activo" : ""}`}
                       onClick={() => setChatActivoId(idUsuario(usuario))}
                     >
-                      <span className="avatar-circulo">{obtenerInicial(usuario)}</span>
+                      <span className="avatar-con-estado">
+                        <span className="avatar-circulo">{obtenerInicial(usuario)}</span>
+                        {estadosUsuarios[usuario] && <span className="punto-conectado" />}
+                      </span>
                       <span className="datos-usuario">
                         <span className="nombre-usuario">{usuario}</span>
                         {resumen.ultimoMensaje && (
                           <span className="ultimo-mensaje">{resumen.ultimoMensaje.texto}</span>
-                        )}
-                        {!resumen.ultimoMensaje && (
-                          <span className="ultimo-mensaje">
-                            {estadosUsuarios[usuario] ? "Conectado" : "Desconectado"}
-                          </span>
                         )}
                       </span>
                       <span className="indicador-contacto">
