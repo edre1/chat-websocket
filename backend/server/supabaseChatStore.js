@@ -49,10 +49,25 @@ export class SupabaseChatStore {
   }
 
   async usersFor(usuarioActual, conectados) {
+    const { data: contactos, error: contactsError } = await this.client
+      .from(TABLAS.contacts)
+      .select("contact_name")
+      .eq("user_name", usuarioActual);
+
+    if (contactsError) throw contactsError;
+
+    const permitidos = new Set([
+      ...(contactos ?? []).map((contacto) => contacto.contact_name),
+      ...conectados,
+    ]);
+    permitidos.delete(usuarioActual);
+
+    if (permitidos.size === 0) return [];
+
     const { data, error } = await this.client
       .from(TABLAS.users)
       .select("name,last_seen")
-      .neq("name", usuarioActual)
+      .in("name", [...permitidos])
       .order("name", { ascending: true });
 
     if (error) throw error;

@@ -66,8 +66,11 @@ export class ChatStore {
   }
 
   usersFor(usuarioActual, conectados) {
+    const contactos = new Set(this.data.users[usuarioActual]?.contacts ?? []);
+
     return Object.values(this.data.users)
       .filter((usuario) => usuario.name !== usuarioActual)
+      .filter((usuario) => contactos.has(usuario.name) || conectados.has(usuario.name))
       .map((usuario) => ({
         nombre: usuario.name,
         conectado: conectados.has(usuario.name),
