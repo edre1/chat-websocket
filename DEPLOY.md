@@ -6,7 +6,7 @@ Motivos:
 
 - El chat ya usa un servidor Node con `ws`, y Render soporta WebSockets en servicios web.
 - No hace falta separar frontend y backend: el mismo proceso Node sirve `interfaz/dist` y atiende el WebSocket.
-- No hace falta migrar a tablas complejas. Supabase guarda el estado del chat en una fila JSON de Postgres.
+- Supabase guarda los datos en tablas separadas: usuarios, contactos, grupos, miembros, mensajes y confirmaciones.
 - Si no configuras Supabase, el proyecto usa `storage/chat-data.json` como fallback local.
 
 ## Configuracion en Supabase
@@ -31,7 +31,6 @@ Puedes usar el archivo `render.yaml` incluido o crear el servicio manualmente:
 - Environment:
   - `SUPABASE_URL=<Project URL de Supabase>`
   - `SUPABASE_SERVICE_ROLE_KEY=<service_role key de Supabase>`
-  - `SUPABASE_CHAT_TABLE=chat_state` opcional
   - `CHAT_DB_PATH=/opt/render/project/src/storage/chat-data.json` opcional como fallback local
 - Persistent Disk: ya no es necesario si Supabase esta configurado.
 

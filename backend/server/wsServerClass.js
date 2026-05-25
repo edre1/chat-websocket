@@ -98,9 +98,9 @@ class wsServer {
     console.log(`${ws.data} conectado...`);
   }
 
-  CONECTADOS(ws) {
+  async CONECTADOS(ws) {
     if (!ws.data) return;
-    this.MSG(ws, MENSAJES.CONECTADOS, this.usuariosPara(ws.data));
+    this.MSG(ws, MENSAJES.CONECTADOS, await this.usuariosPara(ws.data));
   }
 
   async CHAT(ws, data) {
@@ -112,7 +112,7 @@ class wsServer {
     if (!texto) return;
 
     if (data.grupoId) {
-      const grupo = this.store.getGroup(data.grupoId);
+      const grupo = await this.store.getGroup(data.grupoId);
       if (!grupo || !grupo.miembros.includes(emisor)) return;
 
       const mensaje = await this.store.addMessage({
@@ -170,9 +170,10 @@ class wsServer {
     const miembros = [...new Set([creador, ...(Array.isArray(data.miembros) ? data.miembros : [])])].filter(Boolean);
     if (miembros.length < 2) return;
 
+    const gruposCreador = await this.store.groupsFor(creador);
     const grupo = await this.store.upsertGroup({
       id: data.id || `grupo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      nombre: data.nombre || `Grupo ${this.store.groupsFor(creador).length + 1}`,
+      nombre: data.nombre || `Grupo ${gruposCreador.length + 1}`,
       miembros,
       creador,
     });
@@ -186,7 +187,7 @@ class wsServer {
   async EDITAR_GRUPO(ws, data) {
     if (!ws.data || !data?.grupoId) return;
 
-    const grupoActual = this.store.getGroup(data.grupoId);
+    const grupoActual = await this.store.getGroup(data.grupoId);
     if (!grupoActual || grupoActual.creador !== ws.data) return;
 
     const miembrosAnteriores = [...grupoActual.miembros];
@@ -206,7 +207,7 @@ class wsServer {
   async ELIMINAR_GRUPO(ws, data) {
     if (!ws.data || !data?.grupoId) return;
 
-    const grupo = this.store.getGroup(data.grupoId);
+    const grupo = await this.store.getGroup(data.grupoId);
     if (!grupo || grupo.creador !== ws.data) return;
 
     await this.store.deleteGroup(grupo.id);
@@ -218,14 +219,15 @@ class wsServer {
 
   async enviarHistorial(ws) {
     this.MSG(ws, MENSAJES.HISTORIAL, {
-      usuarios: this.usuariosPara(ws.data),
-      grupos: this.store.groupsFor(ws.data),
-      mensajes: this.store.messagesFor(ws.data),
+      usuarios: await this.usuariosPara(ws.data),
+      grupos: await this.store.groupsFor(ws.data),
+      mensajes: await this.store.messagesFor(ws.data),
     });
   }
 
   async entregarPendientes(usuario) {
-    const pendientes = this.store.messagesFor(usuario)
+    const mensajes = await this.store.messagesFor(usuario);
+    const pendientes = mensajes
       .filter((mensaje) => mensaje.tipo === "recibido" && !(mensaje.entregadoA ?? []).includes(usuario));
 
     for (const mensaje of pendientes) {
@@ -256,12 +258,12 @@ class wsServer {
   async broadcastUsuarios() {
     for (const cliente of this.wss.clients) {
       if (cliente.data) {
-        this.MSG(cliente, MENSAJES.CONECTADOS, this.usuariosPara(cliente.data));
+        this.MSG(cliente, MENSAJES.CONECTADOS, await this.usuariosPara(cliente.data));
       }
     }
   }
 
-  usuariosPara(usuario) {
+  async usuariosPara(usuario) {
     return this.store.usersFor(usuario, this.conectados());
   }
 

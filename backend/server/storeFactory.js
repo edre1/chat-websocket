@@ -6,7 +6,6 @@ export async function createChatStore(storagePath) {
     const store = new SupabaseChatStore({
       url: process.env.SUPABASE_URL,
       serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-      table: process.env.SUPABASE_CHAT_TABLE || "chat_state",
     });
     await store.init();
     console.log("Persistencia activa: Supabase");
