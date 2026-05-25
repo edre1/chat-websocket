@@ -20,6 +20,7 @@
 	"main": "backend/server/wsServerClass.js",
 	"keywords": [],
 	"dependencies": {
+		"@supabase/supabase-js": "^2.106.2",
 		"ws": "^8.20.0"
 	}
 }
