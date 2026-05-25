@@ -461,21 +461,153 @@ body {
 @media (max-width: 900px) {
   .app {
     padding: 0;
+    height: 100dvh;
   }
 
   .chat-layout {
-    height: 100vh;
+    height: 100dvh;
     border: none;
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: minmax(170px, 36dvh) minmax(0, 1fr);
   }
 
   .sidebar {
     border-right: none;
     border-bottom: 1px solid var(--borde);
+    padding: 18px;
+    min-height: 0;
+    position: relative;
+  }
+
+  .sidebar-header {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 26px;
+  }
+
+  .sidebar-contenido {
+    padding-bottom: 72px;
+  }
+
+  .sidebar h3 {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .usuarios {
+    gap: 7px;
+  }
+
+  .usuario {
+    min-height: 58px;
+    border-radius: 18px;
+    padding: 10px 14px;
+  }
+
+  .ultimo-mensaje {
+    max-width: none;
+  }
+
+  .boton-grupo {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    width: 58px;
+    height: 58px;
+    font-size: 34px;
+  }
+
+  .panel-chat {
+    min-height: 0;
+  }
+
+  .chat-header {
+    padding: 12px 18px;
+  }
+
+  .chat-header h2 {
+    font-size: 24px;
   }
 
   .mensajes {
-    min-height: 260px;
+    min-height: 0;
+    padding: 14px 12px;
+    gap: 8px;
+    background-position: center;
+  }
+
+  .burbuja {
+    max-width: min(78%, 360px);
+    padding: 9px 12px;
+    border-radius: 20px;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .burbuja.enviado,
+  .burbuja.recibido {
+    border-radius: 20px;
+  }
+
+  .contenido-mensaje {
+    align-items: flex-end;
+  }
+
+  .barra-envio {
+    width: calc(100% - 24px);
+    grid-template-columns: 1fr 50px;
+    gap: 10px;
+    margin: 10px 12px;
+  }
+
+  .barra-envio input {
+    height: 50px;
+    padding: 0 18px;
+  }
+
+  .barra-envio .boton-enviar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .barra-envio .boton-enviar img {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 520px) {
+  .chat-layout {
+    grid-template-rows: minmax(150px, 32dvh) minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 14px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 22px;
+  }
+
+  .avatar-circulo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .usuario .avatar-circulo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .chat-header h2 {
+    font-size: 21px;
+  }
+
+  .burbuja {
+    max-width: 82%;
+    font-size: 15px;
   }
 }
