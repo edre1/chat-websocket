@@ -1,0 +1,7 @@
+node_modules/
+interfaz/node_modules/
+interfaz/dist/
+storage/
+.env
+*.log
+*.zip

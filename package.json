@@ -1,0 +1,25 @@
+{
+	"name": "server_cors",
+	"license": "ISC",
+	"version": "1.0.0",
+	"author": "Jorge Mario Figueroa García",
+	"description": "Desarrollo Web Avanzado",
+	"scripts": {
+		"start": "node backend/server/wsServerClass.js",
+		"dev": "node backend/server/wsServerClass.js",
+		"build": "npm install --prefix interfaz && npm run build --prefix interfaz",
+		"cliente": "nodemon backend/clients/wsClienteClass.js",
+		"mario": "nodemon backend/clients/wsClienteClass.js Mario",
+		"carlos": "nodemon backend/clients/wsClienteClass.js Carlos",
+		"sergio": "nodemon backend/clients/wsClienteClass.js Sergio",
+		"chatMarioSergio": "nodemon backend/clients/chatFecha.js Mario Sergio",
+		"chatSergioMario": "nodemon backend/clients/chatFecha.js Sergio Mario",
+		"chatCarlosTodos": "nodemon backend/clients/chatFecha.js Carlos Todos"
+	},
+	"type": "module",
+	"main": "backend/server/wsServerClass.js",
+	"keywords": [],
+	"dependencies": {
+		"ws": "^8.20.0"
+	}
+}

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: chat-websocket
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: CHAT_DB_PATH
+        value: /opt/render/project/src/storage/chat-data.json
+    disk:
+      name: chat-data
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 1
